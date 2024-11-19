@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String  @unique
+  password String
+  bio      String?
+
+  TodoList TodoList[]
+
+  relations Relations[]
+}
+
+model Relations {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  fromUser   User   @relation(fields: [fromUserId], references: [id])
+  fromUserId String @db.ObjectId
+  toUserId   String @db.ObjectId
+}
+
+model TodoList {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  title   String
+  owner   User   @relation(fields: [ownerId], references: [id])
+  ownerId String @db.ObjectId
+
+  contents ListContent[]
+}
+
+model ListContent {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  content      String
+  todoList     TodoList  @relation(fields: [todoListId], references: [id])
+  todoListId   String    @db.ObjectId
+  checked      Boolean   @default(false)
+  time_created DateTime  @default(now())
+  time_checked DateTime?
+}
