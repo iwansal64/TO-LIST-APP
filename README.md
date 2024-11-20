@@ -34,5 +34,7 @@ To set up the project locally, follow these steps:
 8. **License**: Basic licensing information.
 
 ### Usage:
-- Save the above code in a file called `README.md` and include it in the root directory of your repository.
+- Save the above code in a file called `README.md` and include it in the root directory of your repository
+
+- 
 
