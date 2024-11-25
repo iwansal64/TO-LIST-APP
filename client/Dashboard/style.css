@@ -1,0 +1,96 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: calibri;
+    color: #eee;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: #eee;
+}
+
+a:hover {
+    color: #ccc;
+}
+
+button {
+    background-color: #11111155;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #33333355;
+}
+
+div.sidebar {
+    width: 30vw;
+
+    display: grid;
+    gap: 20px;
+
+    grid-template-rows: min-content min-content 1fr;
+    place-items: center;
+
+    padding: 5px;
+    box-sizing: border-box;
+
+    background-color: #444;
+    border: none;
+    border-right: 2px solid #eee;
+}
+
+div.sidebar > div {
+    width: 90%;
+}
+
+div.sidebar > div.mid > div.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+div.sidebar > div.mid > div.options > button {
+    border: 1px solid #eee;
+}
+
+div.sidebar > div.bot {
+    align-self: end;
+    margin-bottom: 20px;
+}
+
+div.sidebar > div.bot > div.links {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+div.sidebar > div.bot > div.info {
+    margin-top: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+div.sidebar > div.bot > div.info > a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+div.dashboard {
+    width: 70vw;
+}
