@@ -5,26 +5,30 @@
     letter-spacing: 2px;
     margin: 0;
     padding: 0;
+    text-align: center;
 }
 
 body {
     height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
     background-image: linear-gradient(to bottom right, #023966, #222);
     overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #title {
+    margin-top: 25%;
     font-size: 3rem;
 }
 
 #input-field {
     display: flex;
     gap: 1px;
+
+    align-items: center;
+    justify-content: center;
 }
 
 #task-name {
@@ -63,4 +67,51 @@ body {
     margin-top: 10px;
     font-size: small;
     opacity: 0.8;
+}
+
+ul#task-list {
+    margin-top: 20px;
+    height: 40vh;
+    width: clamp(300px, 50vw, 800px);
+
+    background-color: #00000055;
+    padding: 15px;
+    border-radius: 25px;
+}
+
+li.task {
+    display: flex;
+    gap: 5px;
+
+    background-color: #00000055;
+    padding: 10px 20px;
+    border-radius: 10px;
+
+    position: relative;
+
+    cursor: pointer;
+    transition-duration: 0.25s;
+}
+
+li.task.completed {
+    opacity: 0.75;
+}
+
+li.task::after {
+    content: "";
+    background-color: #eee;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+
+    width: 0;
+    height: 2px;
+
+    transition-duration: 0.25s;
+}
+
+li.task.completed::after {
+    width: 100%;
 }

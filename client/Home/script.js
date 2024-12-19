@@ -13,3 +13,12 @@ update_time();
 setInterval(() => {
     update_time();
 }, 60000);
+
+function complete_task(event) {
+    event.target.classList.toggle("completed");
+}
+
+const tasks = document.getElementsByClassName("task");
+Array.from(tasks).forEach(element => {
+    element.addEventListener("click", complete_task);
+});
