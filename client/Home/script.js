@@ -31,6 +31,10 @@ setInterval(() => {
     update_time();
 }, 60000);
 
+function change_task_data_value(task_id, key, value) {
+    tasks_data.findIndex(value => value["task_id"] == task_id)[key] = value;
+}
+
 function complete_task(event) {
     // Change the element state
     event.target.classList.toggle("completed");
@@ -38,7 +42,7 @@ function complete_task(event) {
     const task_id = event.target.dataset["id"];
 
     // Update the current_tasks and completed_tasks list and store it to local storage
-    tasks_data[tasks_data.findIndex(value => value["task_id"] == task_id)]["completed"] = event.target.classList.contains("completed");
+    change_task_data_value(task_id, "completed", event.target.classList.contains("completed"));
     store_data();
 }
 
@@ -58,14 +62,28 @@ function generate_id() {
 }
 
 function add_task_element(task_name, task_id=null, completed=false) {
+    // Generate new id if not specified
+    task_id = task_id || generate_id();
+
     // Create task element
     const new_task = document.createElement("li");
-    task_id = task_id || generate_id();
-    new_task.classList.add("task");
-    completed?new_task.classList.add("completed"):"";
+    new_task.className = "task"+(completed?" completed":"");
     new_task.dataset["id"] = task_id;
     new_task.innerText = task_name;
     new_task.addEventListener("click", complete_task);
+    
+    const delete_btn = document.createElement("button");
+    delete_btn.className = "delete-btn";
+    delete_btn.dataset["id"] = task_id;
+    delete_btn.addEventListener("click", () => remove_task(task_id));
+
+    const trash_icon = document.createElement("img");
+    trash_icon.src = "../public/bin.png";
+    trash_icon.alt = "Trash Icon";
+    trash_icon.width = 40;
+
+    delete_btn.appendChild(trash_icon);
+    new_task.appendChild(delete_btn);
     tasks_container.appendChild(new_task);
 }
 
@@ -82,21 +100,34 @@ function add_task(task_name) {
     store_data();
 }
 
+function remove_task(task_id, task_element=null) {
+    // Remove element from container
+    if(task_element) {
+        tasks_container.removeChild(task_element);
+    }
+    else {
+        tasks_container.removeChild(Array.from(tasks_container.children).find(value => value.dataset["id"] == task_id));
+    }
+    
+    // Remove data and store it to the localStorage
+    tasks_data.splice(tasks_data.findIndex(value => value["task_id"] == task_id), 1);
+    store_data();
+}
+
 function store_data() {
     console.log(tasks_data);
     window.localStorage.setItem("tasks-data", JSON.stringify(tasks_data));
+    window.localStorage.setItem("task-id", current_id);
 }
 
 function update_from_storage() {
     tasks_data = JSON.parse(window.localStorage.getItem("tasks-data") || "[]");
+    current_id = Number.parseInt(window.localStorage.getItem("task-id") || "0");
 
     tasks_data.forEach(task_data => {
-        const task_id = Number.parseInt(task_data["task_id"].replace(task_id_prefix, ""));
-        if(current_id < task_id) {
-            current_id = task_id;
-        }
         add_task_element(task_data["task_name"], task_data["task_id"], task_data["completed"])
     });
+
 }
 
 update_from_storage();
