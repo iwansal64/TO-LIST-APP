@@ -3,8 +3,8 @@
 */
 
 // TODO LIST VARIABLES
-const current_tasks = (window.localStorage.getItem("current-tasks") || "").split(",");
-const completed_tasks = (window.localStorage.getItem("completed-tasks") || "").split(",");
+let tasks_data = [];
+const task_id_prefix = "TASK_ID-"
 
 const tasks_container = document.getElementById("task-list");
 const add_button = document.getElementById("task-add");
@@ -32,10 +32,13 @@ setInterval(() => {
 }, 60000);
 
 function complete_task(event) {
+    // Change the element state
     event.target.classList.toggle("completed");
-    task_name = event.target.innerText;
-    delete current_tasks[current_tasks.indexOf(task_name)];
-    completed_tasks.push(task_name);
+    const task_name = event.target.innerText;
+    const task_id = event.target.dataset["id"];
+
+    // Update the current_tasks and completed_tasks list and store it to local storage
+    tasks_data[tasks_data.findIndex(value => value["task_id"] == task_id)]["completed"] = event.target.classList.contains("completed");
     store_data();
 }
 
@@ -44,31 +47,59 @@ function generate_id() {
     current_id += 1;
     result = current_id.toString();
     if(result.length < 5) {
-        for (let index = 0; index < (5 - result); index++) {
+        const zero_length = 5 - result.length;
+        for (let index = 0; index < zero_length; index++) {
+            console.log(index);
             result = "0" + result;
         }
     }
-    result = "TASK_ID-"+result;
+    result = task_id_prefix+result;
     return result;
 }
 
+function add_task_element(task_name, task_id=null, completed=false) {
+    // Create task element
+    const new_task = document.createElement("li");
+    task_id = task_id || generate_id();
+    new_task.classList.add("task");
+    completed?new_task.classList.add("completed"):"";
+    new_task.dataset["id"] = task_id;
+    new_task.innerText = task_name;
+    new_task.addEventListener("click", complete_task);
+    tasks_container.appendChild(new_task);
+}
+
 function add_task(task_name) {
-    const new_list = document.createElement("li");
-    new_list.className = "task";
-    new_list.dataset["id"] = generate_id();
-    new_list.innerText = task_name;
-    new_list.addEventListener("click", complete_task);
-    tasks_container.appendChild(new_list);
-    current_tasks.push(task_name);
+    // Clear task name input
+    task_name_input.value = ""
+    
+    // Add task element
+    const task_id = generate_id();
+    add_task_element(task_name, task_id);
+    
+    // Add to the current task & update to the local storage
+    tasks_data.push({task_name, task_id, completed: false});
     store_data();
 }
 
 function store_data() {
-    console.log(current_tasks);
-    console.log(completed_tasks);
-    window.localStorage.setItem("current-tasks", current_tasks.join(","));
-    window.localStorage.setItem("completed-tasks", completed_tasks.join(","));
+    console.log(tasks_data);
+    window.localStorage.setItem("tasks-data", JSON.stringify(tasks_data));
 }
+
+function update_from_storage() {
+    tasks_data = JSON.parse(window.localStorage.getItem("tasks-data") || "[]");
+
+    tasks_data.forEach(task_data => {
+        const task_id = Number.parseInt(task_data["task_id"].replace(task_id_prefix, ""));
+        if(current_id < task_id) {
+            current_id = task_id;
+        }
+        add_task_element(task_data["task_name"], task_data["task_id"], task_data["completed"])
+    });
+}
+
+update_from_storage();
 
 /* ---- Events ---- */
 
@@ -78,3 +109,10 @@ Array.from(tasks).forEach(element => {
 });
 
 add_button.addEventListener("click", () => add_task(task_name_input.value));
+
+window.addEventListener("keydown", e => {
+    console.log(e.key);
+    if(e.key == "Enter") {
+        add_task(task_name_input.value);
+    }
+})

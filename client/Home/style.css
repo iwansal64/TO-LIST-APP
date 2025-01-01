@@ -77,6 +77,10 @@ ul#task-list {
     background-color: #00000055;
     padding: 15px;
     border-radius: 25px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 li.task {
