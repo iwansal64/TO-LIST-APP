@@ -14,6 +14,12 @@ const task_name_input = document.getElementById("task-name");
 const import_btn = document.getElementById("import-btn");
 const export_btn = document.getElementById("export-btn");
 
+// POP UP VARIABLES
+const notification_popup_container = document.getElementById("notification-popup");
+const notification_message = document.getElementById("notification-message");
+const close_notification_btn = document.getElementById("close-notification");
+let close_notification_timeout = setTimeout(() => {}, 0);
+
 // OTHER VARIABLES
 const time_element = document.getElementById("time");
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -118,8 +124,16 @@ function remove_task(task_id, task_element = null) {
     }
 
     // Remove data and store it to the localStorage
-    tasks_data.splice(tasks_data.findIndex(value => value["task_id"] == task_id), 1);
-    store_data();
+    const task_index = tasks_data.findIndex(value => value["task_id"] == task_id);
+    try {
+        let task_name = tasks_data[task_index]["task_name"];
+        tasks_data.splice(task_index, 1);
+        store_data();
+        popup_message(`Task: "${task_name}" has been deleted!`, 3000);
+    }
+    catch (e) {
+        console.error(e);
+    }
 }
 
 function download_file(filename, text) {
@@ -155,6 +169,7 @@ function import_data() {
             current_id = data["current_id"];
             update_tasks_data();
             store_data();
+            popup_message("Successfully Import Data!", 5000);
         };
     });
     input.click();
@@ -183,19 +198,33 @@ function update_tasks_data() {
 
 update_from_storage();
 
+function popup_message(message, timeout=5000) {
+    notification_popup_container.classList.add("active");
+    notification_message.innerText = message;
+    clearTimeout(close_notification_timeout);
+    close_notification_timeout = setTimeout(() => {
+        notification_popup_container.classList.remove("active");
+    }, timeout);
+}
+
 /* ---- Events ---- */
 
-const tasks = document.getElementsByClassName("task");
-Array.from(tasks).forEach(element => {
-    element.addEventListener("click", complete_task);
-});
-
+// Add Task Button Event
 add_button.addEventListener("click", () => add_task(task_name_input.value));
+// Export Tasks Data Button Event
 export_btn.addEventListener("click", export_data);
+// Import Tasks Data Button Event
 import_btn.addEventListener("click", import_data);
 
+// Enter to Add Task Event
 window.addEventListener("keydown", e => {
     if (e.key == "Enter") {
         add_task(task_name_input.value);
     }
 });
+
+// Close Notification Button Event
+close_notification_btn.addEventListener("click", () => {
+    notification_popup_container.classList.remove("active");
+    clearTimeout(close_notification_timeout);
+})

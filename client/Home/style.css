@@ -184,3 +184,46 @@ button.data-action {
 button.data-action:hover {
     background-color: #05569955;
 }
+
+div#notification-popup {
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    transform: translateX(-50%) translateY(calc(-100% - 10px));
+    
+    padding: 10px;
+    background-color: #00000055;
+    width: 85vw;
+    height: clamp(100px, 20vh, 500px);
+
+    transition-duration: 0.5s;
+}
+
+div#notification-popup.active {
+    transform: translateX(-50%);
+}
+
+h1#notification-message {
+    font-size: 1.25rem;
+}
+
+button#close-notification {
+    font-size: 1.2rem;
+    font-weight: bold;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    
+    border: none;
+    color: red;
+    background-color: transparent;
+    
+    cursor: pointer;
+}
