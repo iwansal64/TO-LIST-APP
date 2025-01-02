@@ -76,7 +76,7 @@ body {
 ul#task-list {
     margin-top: 20px;
     height: 40vh;
-    width: clamp(300px, 50vw, 800px);
+    width: clamp(250px, 80vw, 800px);
 
     background-color: #00000055;
     padding: 15px;
@@ -86,7 +86,7 @@ ul#task-list {
     flex-direction: column;
     gap: 5px;
 
-    overflow: hidden auto;
+    overflow: hidden scroll;
     border-radius: 15px 0 0 15px;
 }
 
@@ -113,7 +113,7 @@ li.task {
 
     cursor: pointer;
     transition-duration: 0.25s;
-    
+
     display: flex;
     align-items: center;
 }
@@ -148,7 +148,7 @@ button.delete-btn {
     justify-content: center;
     align-items: center;
     margin: 0;
-    
+
     cursor: pointer;
     transition-duration: 0.25s;
 
@@ -156,6 +156,8 @@ button.delete-btn {
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
+
+    z-index: 100;
 }
 
 button.delete-btn:hover {
