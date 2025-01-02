@@ -32,7 +32,7 @@ setInterval(() => {
 }, 60000);
 
 function change_task_data_value(task_id, key, value) {
-    tasks_data.findIndex(value => value["task_id"] == task_id)[key] = value;
+    tasks_data[tasks_data.findIndex(value => value["task_id"] == task_id)][key] = value;
 }
 
 function complete_task(event) {

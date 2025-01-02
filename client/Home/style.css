@@ -81,6 +81,20 @@ ul#task-list {
     display: flex;
     flex-direction: column;
     gap: 5px;
+
+    overflow: hidden auto;
+    border-radius: 15px 0 0 15px;
+}
+
+ul#task-list::-webkit-scrollbar {
+    width: 5px;
+    background-color: #000;
+    border-radius: 15px;
+}
+
+ul#task-list::-webkit-scrollbar-thumb {
+    background-color: #aaa;
+    border-radius: 15px;
 }
 
 li.task {
