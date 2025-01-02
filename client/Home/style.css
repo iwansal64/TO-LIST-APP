@@ -118,6 +118,10 @@ li.task {
     align-items: center;
 }
 
+li.task:hover {
+    background-color: #000000cc;
+}
+
 li.task.completed {
     opacity: 0.75;
 }
@@ -162,4 +166,21 @@ button.delete-btn {
 
 button.delete-btn:hover {
     filter: brightness(150%);
+}
+
+button.data-action {
+    background-color: #055699;
+
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 25px;
+
+    cursor: pointer;
+
+    transition-duration: 0.15s;
+}
+
+button.data-action:hover {
+    background-color: #05569955;
 }

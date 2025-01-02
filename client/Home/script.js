@@ -2,7 +2,7 @@
 ---- DEFINITIONS ----
 */
 
-// TODO LIST VARIABLES
+// TASK LIST VARIABLES
 let tasks_data = [];
 const task_id_prefix = "TASK_ID-";
 
@@ -10,9 +10,14 @@ const tasks_container = document.getElementById("task-list");
 const add_button = document.getElementById("task-add");
 const task_name_input = document.getElementById("task-name");
 
+// DATA ACTION VARIABLES
+const import_btn = document.getElementById("import-btn");
+const export_btn = document.getElementById("export-btn");
+
 // OTHER VARIABLES
 const time_element = document.getElementById("time");
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 
 /*
 ---- FUNCTIONS ----
@@ -57,7 +62,6 @@ function generate_id() {
     if (result.length < 5) {
         const zero_length = 5 - result.length;
         for (let index = 0; index < zero_length; index++) {
-            console.log(index);
             result = "0" + result;
         }
     }
@@ -118,8 +122,45 @@ function remove_task(task_id, task_element = null) {
     store_data();
 }
 
+function download_file(filename, text) {
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+
+function export_data() {
+    const today_date = new Date();
+    download_file(`TaskData ${today_date.getHours()}:${today_date.getMinutes()}:${today_date.getSeconds()} ${today_date.getDate()}-${(today_date.getMonth() + 1)}-${today_date.getFullYear()}.json`, JSON.stringify({ tasks_data, current_id }));
+}
+
+function import_data() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = ".json";
+    input.addEventListener("change", (e) => {
+        file = e.target.files[0];
+        const reader = new FileReader();
+        reader.readAsText(file, 'UTF-8');
+        reader.onload = readerEvent => {
+            const data = JSON.parse(readerEvent.target.result); // this is the content!
+            tasks_data = data["tasks_data"];
+            current_id = data["current_id"];
+            update_tasks_data();
+            store_data();
+        };
+    });
+    input.click();
+}
+
 function store_data() {
-    console.log(tasks_data);
     window.localStorage.setItem("tasks-data", JSON.stringify(tasks_data));
     window.localStorage.setItem("task-id", current_id);
 }
@@ -127,11 +168,17 @@ function store_data() {
 function update_from_storage() {
     tasks_data = JSON.parse(window.localStorage.getItem("tasks-data") || "[]");
     current_id = Number.parseInt(window.localStorage.getItem("task-id") || "0");
+    update_tasks_data();
+}
+
+function update_tasks_data() {
+    Array.from(tasks_container.children).forEach(element => {
+        tasks_container.removeChild(element);
+    });
 
     tasks_data.forEach(task_data => {
         add_task_element(task_data["task_name"], task_data["task_id"], task_data["completed"]);
     });
-
 }
 
 update_from_storage();
@@ -144,6 +191,8 @@ Array.from(tasks).forEach(element => {
 });
 
 add_button.addEventListener("click", () => add_task(task_name_input.value));
+export_btn.addEventListener("click", export_data);
+import_btn.addEventListener("click", import_data);
 
 window.addEventListener("keydown", e => {
     if (e.key == "Enter") {
