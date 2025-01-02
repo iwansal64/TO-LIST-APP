@@ -8,6 +8,10 @@
     text-align: center;
 }
 
+::selection {
+    background-color: #055699;
+}
+
 body {
     height: 100vh;
     background-image: linear-gradient(to bottom right, #023966, #222);

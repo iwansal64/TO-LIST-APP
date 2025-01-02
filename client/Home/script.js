@@ -22,7 +22,7 @@ function update_time() {
     const today_date = new Date();
     const time = today_date.getHours() + ":" + today_date.getMinutes();
     const day = days[today_date.getDay()];
-    const date = today_date.getDate() + "/" + today_date.getMonth() + "/" + today_date.getFullYear();
+    const date = today_date.getDate() + "/" + (today_date.getMonth()+1) + "/" + today_date.getFullYear();
     time_element.innerText = date + " " + day;
 }
 
