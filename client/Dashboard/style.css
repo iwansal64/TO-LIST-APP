@@ -1,96 +1,142 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: calibri;
-    color: #eee;
+    box-sizing: border-box;
+    font-family: 'open sans', sans-serif;
 }
 
 body {
-    display: flex;
     height: 100vh;
-    overflow: hidden;
-    background-color: #333;
+    background-color: #000; /* This sets the background color to black */
+    background-image: url(background.webp); /* Use this to set the background image */
+    background-size: cover;
+    background-position: center;
 }
-
+li{
+    list-style: none;
+}
 a {
     text-decoration: none;
-    color: #eee;
+    color: #fff;
+    font-size: 1rem;
 }
-
 a:hover {
-    color: #ccc;
+    color: orange;
 }
-
-button {
-    background-color: #11111155;
-    border: none;
-    padding: 5px;
+header{
+  position: relative;
+  padding: 0 2rem;  
+}
+.navbar{
+    width: 100%;
+    height: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.navbar .logo{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.navbar .links{
+    display: flex;
+    gap: 2rem;
+}
+.navbar .toggle_btn{
+    color: #fff;
+    font-size: 1.5rem;
     cursor: pointer;
+    display: none;
 }
-
-button:hover {
-    background-color: #33333355;
-}
-
-div.sidebar {
-    width: 30vw;
-
-    display: grid;
-    gap: 20px;
-
-    grid-template-rows: min-content min-content 1fr;
-    place-items: center;
-
-    padding: 5px;
-    box-sizing: border-box;
-
-    background-color: #444;
+.action_btn{
+    background-color: orange;
+    color: #fff;
+    padding: 0.5rem 1rem;
     border: none;
-    border-right: 2px solid #eee;
+    outline: none;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
+.action_btn:hover{
+    scale:1.05;
+    color: #fff;
 
-div.sidebar > div {
-    width: 90%;
 }
-
-div.sidebar > div.mid > div.options {
+.action_btn:active{
+    scale:0.95;
+}
+.dropdown_menu{
+    display: none;
+    position: absolute;
+    right: 2rem;
+    top: 60px;
+    height: 0;
+    width: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.dropdown_menu.open{
+    height: 240px;
+}
+.dropdown_menu li{
+    padding: 0.7rem;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-div.sidebar > div.mid > div.options > button {
-    border: 1px solid #eee;
-}
-
-div.sidebar > div.bot {
-    align-self: end;
-    margin-bottom: 20px;
-}
-
-div.sidebar > div.bot > div.links {
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+
 }
-
-div.sidebar > div.bot > div.info {
-    margin-top: 10px;
-
+.dropdown_menu .action_btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+section#hero {
+    height: calc(100vh - 60px);
     display: flex;
     flex-direction: column;
-    justify-content: center;
-}
-
-div.sidebar > div.bot > div.info > a {
-    display: flex;
-    justify-content: center;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    color: #fff;
+    text-align: center; /* Center-align the text */
+    padding: 0 2rem; /* Add padding for smaller screens */
 }
 
-div.dashboard {
-    width: 70vw;
+#hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+#hero p {
+    font-size: 1.5rem; /* Increase font size */
+    line-height: 2rem; /* Add spacing between lines */
+    max-width: 800px; /* Restrict the width for better readability */
+    margin: 0 auto; /* Center the paragraph */
+    color: #f0f0f0; /* Slightly lighter text color */
+}
+
+@media (max-width: 992px) {
+    .navbar .links,
+    .navbar .action_btn{
+        display: none;
+    }
+    .navbar .toggle_btn{
+        display: block;
+    }
+    .dropdown_menu{
+        display: block;
+    }
+}
+@media (max-width: 576px){
+.dropdown_menu{
+    left: 2rem;
+    width: unset;
+}
 }

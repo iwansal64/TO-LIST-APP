@@ -1,53 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="apple-touch-icon" sizes="180x180" href="../public/favicon_io/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../public/favicon_io/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../public/favicon_io/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" 
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
-    <title>TO LIST APP - Dashboard</title>
+    <title>TODO</title>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="top">
-            <div class="logo">
-                <h1>To-<span>List</span>-App</h1>
-            </div>
-            <div class="line">
-                <hr>
-            </div>
-        </div>
-        <div class="mid">
-            <div class="options">
-                <button class="option-button">All List</button>
-                <button class="active option-button">My List</button>
-                <button class="option-button">Team's List</button>
-                <button class="option-button">Public List</button>
-                <button class="option-button">Starred List</button>
+    <header>
+        <div class="navbar">
+            <div class="logo"><a href="#">TODO LIST</a></div>
+            <ul class="links">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="../Home/index.html">TODO</a></li>
+            </ul>
+            <a href="#" class="action_btn">Get started</a>
+            <div class="toggle_btn"> 
+                <i class="fa-solid fa-bars"></i>
             </div>
         </div>
-        <div class="bot">
-            <div class="links">
-                <a href="">Logout</a>
-                <a href="">Notifications</a>
-                <a href="">Settings</a>
-                <a href="">Archive</a>
-                <a href="">About</a>
-            </div>
-            <div class="line">
-                <hr>
-            </div>
-            <div class="info">
-                <a href=""><img src="../public/instagram.png" alt="Instagram Logo" width="30px"> Follow us on Instagram!</a>
-            </div>
-        </div>
-    </div>
-    <div class="dashboard">
+        <div class="dropdown_menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="../Home/index.html">TODO</a></li>
+           <li> <a href="#" class="action_btn">Get started</a></li>
+        </div>   
+    </header>
 
-    </div>
-    <script src="script.js"></script>
+    <main>
+        <section id="hero">
+            <h1>Welcome</h1>
+            <p>
+                Stay organized and take control of your tasks with our easy-to-use To-Do List application. This app helps you manage your day effectively by allowing you to create tasks, edit and update them as needed, mark them as complete, and delete tasks that are no longer relevant. Additionally, you can import tasks from a file or export your current list to share or back up your progress. Get started today and experience a simpler, more productive way to organize your life!
+            </p>
+        </section>      
+    </main>
+    
+    <script>
+        const toggleBtn = document.querySelector('.toggle_btn');
+        const toggleBtnIcon = document.querySelector('.toggle_btn i');
+        const dropDownMenu = document.querySelector('.dropdown_menu');
+        toggleBtn.onclick = function(){
+            dropDownMenu.classList.toggle('open');
+            const isOpen = dropDownMenu.classList.contains('open');
+
+            toggleBtnIcon.classList = isOpen
+            ? 'fa-solid fa-xmark' : 
+            'fa-solid fa-bars'
+        }
+    </script>
 </body>
 </html>
