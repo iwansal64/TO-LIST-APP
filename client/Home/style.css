@@ -8,6 +8,10 @@
     text-align: center;
 }
 
+::selection {
+    background-color: #055699;
+}
+
 body {
     height: 100vh;
     background-image: linear-gradient(to bottom right, #023966, #222);
@@ -72,7 +76,7 @@ body {
 ul#task-list {
     margin-top: 20px;
     height: 40vh;
-    width: clamp(300px, 50vw, 800px);
+    width: clamp(250px, 80vw, 800px);
 
     background-color: #00000055;
     padding: 15px;
@@ -81,6 +85,20 @@ ul#task-list {
     display: flex;
     flex-direction: column;
     gap: 5px;
+
+    overflow: hidden scroll;
+    border-radius: 15px 0 0 15px;
+}
+
+ul#task-list::-webkit-scrollbar {
+    width: 5px;
+    background-color: #000;
+    border-radius: 15px;
+}
+
+ul#task-list::-webkit-scrollbar-thumb {
+    background-color: #aaa;
+    border-radius: 15px;
 }
 
 li.task {
@@ -95,9 +113,13 @@ li.task {
 
     cursor: pointer;
     transition-duration: 0.25s;
-    
+
     display: flex;
     align-items: center;
+}
+
+li.task:hover {
+    background-color: #000000cc;
 }
 
 li.task.completed {
@@ -130,7 +152,7 @@ button.delete-btn {
     justify-content: center;
     align-items: center;
     margin: 0;
-    
+
     cursor: pointer;
     transition-duration: 0.25s;
 
@@ -138,8 +160,70 @@ button.delete-btn {
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
+
+    z-index: 100;
 }
 
 button.delete-btn:hover {
     filter: brightness(150%);
+}
+
+button.data-action {
+    background-color: #055699;
+
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 25px;
+
+    cursor: pointer;
+
+    transition-duration: 0.15s;
+}
+
+button.data-action:hover {
+    background-color: #05569955;
+}
+
+div#notification-popup {
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    transform: translateX(-50%) translateY(calc(-100% - 10px));
+    
+    padding: 10px;
+    background-color: #00000055;
+    width: 85vw;
+    height: clamp(100px, 20vh, 500px);
+
+    transition-duration: 0.5s;
+}
+
+div#notification-popup.active {
+    transform: translateX(-50%);
+}
+
+h1#notification-message {
+    font-size: 1.25rem;
+}
+
+button#close-notification {
+    font-size: 1.2rem;
+    font-weight: bold;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    
+    border: none;
+    color: red;
+    background-color: transparent;
+    
+    cursor: pointer;
 }
